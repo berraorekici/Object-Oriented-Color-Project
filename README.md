@@ -1,21 +1,67 @@
 # Object-Oriented Color Management Project
 
-This is a Python project for my Object-Oriented Programming (OOP) course. It manages colors and palettes using OOP principles and a sorting algorithm.
+This is a Python project for my Object-Oriented Programming (OOP) course. The project manages different color types and color palettes using OOP principles.
 
 ## OOP Principles Used
 
-* **Abstraction:** Created an abstract base class named `Color`.
-* **Inheritance:** `RGBColor` class inherits from the `Color` class.
-* **Encapsulation:** Protected color attributes and used getters/setters to access them safely.
-* **Custom Exception:** Created `InvalidColorValueError` to catch errors if RGB values are not between 0 and 255.
-* **Polymorphism:** The `Palette` class can store and handle different color objects together in a list.
-* **Sorting Algorithm:** Implemented a custom **Bubble Sort** algorithm to sort colors by their Red value.
+### Abstraction
+
+I created an abstract base class called `Color`.
+
+### Inheritance
+
+The following classes inherit from `Color`:
+
+* `RGBColor`
+* `HexColor`
+* `CMYKColor`
+
+### Encapsulation
+
+Color values are stored as protected attributes and validated before use.
+
+### Polymorphism
+
+The `Color` class defines abstract methods:
+
+* `to_rgb()`
+* `brightness()`
+* `invert()`
+
+Each subclass implements these methods differently.
+
+The `Palette` class works with `Color` objects without knowing their exact type. It can store `RGBColor`, `HexColor`, and `CMYKColor` objects together and use the same methods on all of them.
+
+### Exception Handling
+
+The project checks for invalid color values and raises exceptions when necessary.
 
 ## Project Structure
 
-* `classes/` - Contains all OOP classes (`color_base.py`, `rgb_color.py`, `palette.py`).
-* `tests/` - Contains unit tests for testing the code.
-* `main.py` - The main file that runs the project and demonstrates how it works.
+* `classes/` - Contains all class definitions.
+* `tests/` - Contains unit tests.
+* `main.py` - Demonstrates the project features.
+
+## Testing
+
+The project includes unit tests using Python's `unittest` module.
+
+The tests check:
+
+* RGB to RGB conversion
+* HEX to RGB conversion
+* CMYK to RGB conversion
+* Invalid RGB values
+* Palette support for different color types
+
+## Example Class Hierarchy
+
+Color (Abstract Class)
+
+* RGBColor
+* HexColor
+* CMYKColor
 
 ---
+
 **Author:** Berra Orekici
