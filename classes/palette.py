@@ -1,41 +1,32 @@
 from classes.color_base import Color
-from classes.rgb_color import RGBColor
+
 
 class Palette:
-    def __init__(self, palette_name: str):
-        self._palette_name = palette_name
+    def __init__(self, name):
+        self._name = name
         self._colors = []
 
-    def add_color(self, color: Color) -> None:
-        if isinstance(color, Color):
-            self._colors.append(color)
-            print(f"🎨 [Palette] Added '{color.get_color_name()}' to the palette '{self._palette_name}'.")
-        else:
-            print("❌ [Palette Error] Only objects derived from Color class can be added!")
+    def add_color(self, color):
+        if not isinstance(color, Color):
+            raise TypeError("Only Color objects can be added")
+        self._colors.append(color)
 
-    def show_palette(self) -> None:
-        print(f"\n=== Displaying Palette: {self._palette_name} ===")
-        if not self._colors:
-            print("The palette is currently empty.")
-            return
+    def sort_by_brightness(self):
+        self._colors.sort(key=lambda color: color.brightness())
+
+    def invert_all(self):
+        inverted_palette = Palette(self._name + " inverted")
+
         for color in self._colors:
-            color.display_info()
-        print("=======================================")
+            inverted_palette.add_color(color.invert())
 
-    def sort_by_red_intensity(self) -> None:
-        n = len(self._colors)
-        if n <= 1:
-            return  
+        return inverted_palette
 
-        print(f"\n🔄 [Sorting] Sorting palette '{self._palette_name}' by Red (R) intensity (Highest to Lowest)...")
-        
-        for i in range(n):
-            for j in range(0, n - i - 1):
-                color1 = self._colors[j]
-                color2 = self._colors[j + 1]
-                
-                if isinstance(color1, RGBColor) and isinstance(color2, RGBColor):
-                    if color1._r < color2._r:
-                        self._colors[j], self._colors[j + 1] = self._colors[j + 1], self._colors[j]
-                        
-        print("✅ [Sorting] Sorting completed successfully!")
+    def get_rgb_values(self):
+        return [color.to_rgb() for color in self._colors]
+
+    def __str__(self):
+        result = f"Palette: {self._name}\n"
+        for color in self._colors:
+            result += f"{color} | RGB: {color.to_rgb()} | Brightness: {color.brightness()}\n"
+        return result

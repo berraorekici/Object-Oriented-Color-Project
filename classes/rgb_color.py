@@ -1,15 +1,23 @@
-from classes.color_base import Color, InvalidColorValueError
+from classes.color_base import Color
+
 
 class RGBColor(Color):
-    def __init__(self, color_name: str, r: int, g: int, b: int):
-        super().__init__(color_name)
-        
-        if not (0 <= r <= 255) or not (0 <= g <= 255) or not (0 <= b <= 255):
-            raise InvalidColorValueError(f"Invalid RGB values ({r}, {g}, {b}) for '{color_name}'. Must be 0-255!")
-            
+    def __init__(self, r, g, b):
+        if not (0 <= r <= 255 and 0 <= g <= 255 and 0 <= b <= 255):
+            raise ValueError("RGB values must be between 0 and 255")
+
         self._r = r
         self._g = g
         self._b = b
 
-    def display_info(self) -> None:
-        print(f"Color Name: {self.get_color_name()} | Type: RGB | Values: (R: {self._r}, G: {self._g}, B: {self._b})")
+    def to_rgb(self):
+        return self._r, self._g, self._b
+
+    def brightness(self):
+        return (self._r + self._g + self._b) / 3
+
+    def invert(self):
+        return RGBColor(255 - self._r, 255 - self._g, 255 - self._b)
+
+    def __str__(self):
+        return f"RGB({self._r}, {self._g}, {self._b})"
